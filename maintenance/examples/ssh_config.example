@@ -1,0 +1,26 @@
+# Primary: Cloudflare Tunnel + Access (replace maint.example.com with the real zone)
+# On Windows, cloudflared must be on PATH (e.g. winget install --id Cloudflare.cloudflared).
+Host vms-*.maint.example.com
+    User vmsmaint
+    IdentityFile ~/.ssh/id_ed25519_vms
+    ProxyCommand cloudflared access ssh --hostname %h
+    ServerAliveInterval 30
+
+# LAN-jump fallback via the other machine's Cloudflare host:
+# ssh -J vms-acme-bkk1-desk.maint.example.com vmsmaint@192.168.1.10
+
+# Fallback: Tailscale
+Host vms-*
+    User vmsmaint
+    IdentityFile ~/.ssh/id_ed25519_vms
+    ServerAliveInterval 30
+
+# Part 2 example only; replace the VM address and Linux username.
+Host acme-bkk1-vm
+    HostName 192.168.1.100
+    User vms
+    IdentityFile ~/.ssh/id_ed25519_vms
+    ProxyJump vms-acme-bkk1-srv
+
+# LAN fallback: ssh -J vms-acme-bkk1-desk vmsmaint@192.168.1.10
+# Web forwarding: ssh -L 8080:127.0.0.1:8080 vms-acme-bkk1-srv

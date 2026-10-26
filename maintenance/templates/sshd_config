@@ -1,0 +1,17 @@
+PasswordAuthentication no
+PubkeyAuthentication yes
+PermitEmptyPasswords no
+KbdInteractiveAuthentication no
+AllowUsers {{MAINTENANCE_ACCOUNT}}
+MaxAuthTries 3
+LoginGraceTime 30
+ClientAliveInterval 60
+ClientAliveCountMax 3
+AllowTcpForwarding yes
+GatewayPorts no
+PermitTunnel no
+Subsystem sftp sftp-server.exe
+LogLevel VERBOSE
+
+Match Group administrators
+    AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys

@@ -1,0 +1,8 @@
+// Replace the default allow-all policy. Replace the engineer identity below.
+{
+  "groups": { "group:vms-engineers": ["engineer@example.com"] },
+  "tagOwners": { "tag:vms-site": ["group:vms-engineers"] },
+  "grants": [
+    { "src": ["group:vms-engineers"], "dst": ["tag:vms-site"], "ip": ["tcp:22"] }
+  ]
+}

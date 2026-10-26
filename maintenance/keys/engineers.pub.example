@@ -1,0 +1,3 @@
+# Replace with real passphrase-protected ed25519 public keys, one per engineer.
+# Copy this file to engineers.pub and remove these comments after adding keys.
+# Format: ssh-ed25519 <base64-public-key> engineer-name

@@ -1,0 +1,9 @@
+# Agent scratch
+.codex-out/
+
+# Real per-site configs stay out of git; examples are tracked
+maintenance/config/*.psd1
+!maintenance/config/*.example.psd1
+
+# Real engineer key list is tracked deliberately (public keys only) — see RUNBOOK
+*.log
