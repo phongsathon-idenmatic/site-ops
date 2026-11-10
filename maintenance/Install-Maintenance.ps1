@@ -133,7 +133,8 @@ finally { Unregister-ScheduledTask -TaskPath '\IDENMATIC\' -TaskName 'VMS-Mainte
         -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Minutes 2)
     $scheduler = New-Object -ComObject 'Schedule.Service'
     $scheduler.Connect()
-    try { $scheduler.GetFolder($script:MaintenanceTaskPath) | Out-Null }
+    # try { $scheduler.GetFolder($script:MaintenanceTaskPath) | Out-Null }
+    try { $scheduler.GetFolder($script:MaintenanceTaskPath.TrimEnd('\')) | Out-Null }
     catch { $scheduler.GetFolder('\').CreateFolder('IDENMATIC') | Out-Null }
     Register-ScheduledTask -TaskName $taskName -TaskPath $script:MaintenanceTaskPath -Action $action `
         -Trigger $trigger -Principal $principal -Settings $settings -Force | Out-Null
@@ -516,7 +517,7 @@ try {
     <BootTrigger><Enabled>true</Enabled><Delay>PT1M</Delay></BootTrigger>
     <TimeTrigger><Repetition><Interval>PT5M</Interval><StopAtDurationEnd>false</StopAtDurationEnd></Repetition><StartBoundary>2020-01-01T00:00:00</StartBoundary><Enabled>true</Enabled></TimeTrigger>
   </Triggers>
-  <Principals><Principal id="System"><UserId>S-1-5-18</UserId><LogonType>ServiceAccount</LogonType><RunLevel>HighestAvailable</RunLevel></Principal></Principals>
+  <Principals><Principal id="System"><UserId>S-1-5-18</UserId><RunLevel>HighestAvailable</RunLevel></Principal></Principals>
   <Settings><MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy><DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries><StopIfGoingOnBatteries>false</StopIfGoingOnBatteries><StartWhenAvailable>true</StartWhenAvailable><Enabled>true</Enabled><ExecutionTimeLimit>PT4M</ExecutionTimeLimit></Settings>
   <Actions Context="System"><Exec><Command>$escapedExe</Command><Arguments>$escapedArguments</Arguments></Exec></Actions>
 </Task>
@@ -541,7 +542,8 @@ try {
         if (-not $taskMatches) {
             $scheduler = New-Object -ComObject 'Schedule.Service'
             $scheduler.Connect()
-            try { $scheduler.GetFolder($script:MaintenanceTaskPath) | Out-Null }
+            # try { $scheduler.GetFolder($script:MaintenanceTaskPath) | Out-Null }
+            try { $scheduler.GetFolder($script:MaintenanceTaskPath.TrimEnd('\')) | Out-Null }
             catch { $scheduler.GetFolder('\').CreateFolder('IDENMATIC') | Out-Null }
             Register-ScheduledTask -TaskName $script:MaintenanceTask -TaskPath $script:MaintenanceTaskPath -Xml $xml -Force | Out-Null
             $true
